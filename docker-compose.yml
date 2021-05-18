@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: 201196
+            MONGO_INITDB_DATABASE: P3
+        ports:
+            - 27017:27017
+
+
+    mongo_seed:
+        image: mongo
+        links:
+            - mongo
+        volumes:
+            - ./SacramentocrimeJanuary2006.csv:/tmp/Sacramento.csv
+        command: mongoimport --host mongo -d P3 -c sacramento --type csv --file /tmp/Sacramento.csv --headerline --username root --password 201196
